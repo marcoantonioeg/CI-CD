@@ -1,0 +1,23 @@
+name: Mi primer Pipeline DevOps
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  construir-y-desplegar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Treaer el código al contenedor
+        uses: actions/checkout@v4
+      - name: Instalar entorno de ejecución
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Instalar dependencias y compilar
+        run: | 
+          npm install 
+          npm run build
+      - name: Publicar en Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
